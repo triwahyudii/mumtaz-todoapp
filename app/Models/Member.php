@@ -18,6 +18,15 @@ class Member extends Model
     }
 
     public function description(){
-        return $this->hasManyThrough(Member::class, 'description', 'id');
+        return $this->hasManyThrough(Member::class, Member::class, 'id');
+    }
+
+    public function members(){
+        return [
+            'id' => Member::factory(),
+            'fullname_id' => function (array $attributes) {
+                return Member::find($attributes['id'])->fullname;
+            }      
+        ];
     }
 }
